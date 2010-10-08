@@ -54,10 +54,26 @@ class Game
    this.draw()
    @state.iterate()
 
-  
-$(window.document).ready ->
+start = () ->
   canvas = $("#canvas")[0]
-  state = new GameState(10,10)
+  rows = parseInt($("#rows").val())
+  cols = parseInt($("#cols").val())
+  speed = parseInt($("#speed").val())
+  state = new GameState(rows,cols)
   game = new Game(canvas, state) 
   expression = () -> game.tick()
-  window.timer = window.setInterval(expression, 100)
+  window.timer = window.setInterval(expression, speed)
+  window.start_stop.unbind()
+  window.start_stop.text("stop")
+  window.start_stop.click(stop)
+
+stop = () -> 
+  window.clearInterval(window.timer)
+  window.start_stop.unbind()
+  window.start_stop.text("start")
+  window.start_stop.click(start)
+
+$(window.document).ready ->
+  window.start_stop = $("#start-stop")
+  window.start_stop.click(start)
+
