@@ -1,16 +1,11 @@
 class GameState 
  constructor:(@rows,@cols) ->
-    @cells = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-              0, 0, 1, 1, 1, 0, 0, 0, 0, 0,
-              0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-              0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-              0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-              0, 0, 1, 1, 1, 0, 0, 0, 0, 0,
-              0, 0, 0, 1, 1, 1, 0, 0, 0, 0,
-              0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-              0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-              0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ]
-  
+    @cells = new Array(@rows * @cols) 
+    #initialize randomly
+    for cell, i in @cells
+      @cells[i] = if Math.random() > 0.7 then 1 else 0
+      
+
   neighbors:(cell, index) ->
     above = ((index - @rows) + @cells.length) % @cells.length 
     below = (Math.abs(index + @cols)) % @cells.length 
@@ -39,7 +34,7 @@ class GameState
 class Game
   constructor:(@canvas,@state) ->
                 
-  draw: () ->
+  draw: ->
     blocksize =  @canvas.width / @state.rows 
     if @canvas.getContext 
       ctx = @canvas.getContext("2d")
@@ -51,17 +46,21 @@ class Game
         ctx.fillRect(x, y, blocksize, blocksize) 
 
   tick: ->
-   this.draw()
+   @draw()
    @state.iterate()
 
+change_dimensions = (name) ->
+  window.game[name] = parseInt($("##{name}").val()) 
+  window.game.state =  new GameState(window.game.rows, window.game.columns)
+
 start = () ->
-  canvas = $("#canvas")[0]
   rows = parseInt($("#rows").val())
   cols = parseInt($("#cols").val())
   speed = parseInt($("#speed").val())
+  canvas = $("#canvas")[0]
   state = new GameState(rows,cols)
-  game = new Game(canvas, state) 
-  expression = () -> game.tick()
+  window.game = new Game(canvas,state) 
+  expression = () -> window.game.tick()
   window.timer = window.setInterval(expression, speed)
   window.start_stop.unbind()
   window.start_stop.text("stop")
@@ -75,5 +74,6 @@ stop = () ->
 
 $(window.document).ready ->
   window.start_stop = $("#start-stop")
+  $("#rows").change(() -> change_dimensions("rows"))
+  $("#cols").change(() -> change_dimensions("cols"))
   window.start_stop.click(start)
-
