@@ -1,29 +1,41 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Canvas tutorial</title>
+    <title>Canvas Life</title>
+    <link rel="stylesheet" href="screen.css" type="text/css" media="screen, projection"></link>
     <script src="jquery.min.js"></script>
     <script src="application.js"></script> 
     <style type="text/css">
-      canvas { border: 1px solid black; }
+      canvas { 
+        border: 1px solid black; 
+        margin:auto;
+      }
+      #gamecol {
+        text-align:center;
+      }
+      #header {
+        text-align:center;
+      }
+
     </style>
   </head>
   <body>
-    <div>
-      <label for="rows">Rows</label>
-      <input type="text" id="rows" value="10"></input> 
-    </div>
-    <div>
-      <label for="cols">Columns</label>
-      <input type="text" id="cols" value ="10"></input>
-    </div>
-    <div>
-      <label for="speed">Speed</label>
-      <input type="text" id="speed" value="10"></input>  
-    </div>
-    <button type="button" id="start-stop">start</button>
-    <div>
-      <canvas id="canvas" width="500" height="500"></canvas>
+    <div class="span-24 last" id="maincol">
+      <div class="span-20 last" id="header">
+        <h1>Canvas Life</h1>
+      </div>
+      <div class="span-20" id="gamecol">
+        <canvas id="canvas" width=600 height=600></canvas>
+      </div>
+      <div class="span-4 last" id="control-panel">
+        <label for="rows">Rows</label>
+        <input type="text" id="rows" value="10"></input> 
+        <label for="cols">Columns</label>
+        <input type="text" id="cols" value ="10"></input>
+        <label for="speed">Speed</label>
+        <input type="text" id="speed" value="10"></input>  
+        <button type="button" id="start-stop">start</button>
+      </div>
     </div>
   </body>
 </html>
